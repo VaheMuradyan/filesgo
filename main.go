@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -109,4 +110,33 @@ func WriteFile(filePath string) {
 
 	fmt.Println("exav")
 
+}
+
+func ReadTable(filepath string) {
+	content, err := os.ReadFile(filepath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	lines := strings.Split(string(content), "\n")
+
+	var data [][]int
+
+	for _, line := range lines {
+		if strings.TrimSpace(line) == "" {
+			continue
+		}
+
+		parts := strings.Fields(line)
+		row := make([]int, len(parts))
+		for i, part := range parts {
+			row[i], _ = strconv.Atoi(part)
+		}
+
+		data = append(data, row)
+	}
+
+	for _, row := range data {
+		fmt.Println(row)
+	}
 }
