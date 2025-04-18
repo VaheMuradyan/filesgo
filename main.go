@@ -2,9 +2,11 @@ package main
 
 import (
 	"bufio"
+	"encoding/csv"
 	"fmt"
 	"log"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -182,4 +184,40 @@ func ReadFromFileInStruct(filepath string) {
 		fmt.Printf("Name: %s, Age: %d, Occupation: %s\n", person.Name, person.Age, person.Occupation)
 	}
 
+}
+
+func ReadCSV(filepath string) {
+	var names []string // Slice to store names
+
+	// Open the CSV file
+	file, err := os.Open(filepath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	// Create a new CSV reader
+	reader := csv.NewReader(file)
+
+	// Read all records, skipping the header
+	records, err := reader.ReadAll()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Iterate over the records
+	for _, record := range records[1:] { // Skip header on index 0
+		// TODO: Extract the name from 'record'
+		name := record[0]
+
+		// TODO: Append the extracted name to the 'names' slice
+		names = append(names, name)
+	}
+
+	// TODO: Sort the 'names' slice in alphabetical order
+	// - You can use the sort.Strings() method for that
+	sort.Strings(names)
+
+	// TODO: Print each name from the sorted 'names' slice
+	fmt.Println(names)
 }
