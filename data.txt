@@ -1,0 +1,5 @@
+Name Age Occupation
+John 28 Engineer
+Alice 34 Doctor
+Bob 23 Artist
+Vahe 23 Programmer

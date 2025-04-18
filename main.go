@@ -9,6 +9,12 @@ import (
 	"strings"
 )
 
+type Person struct {
+	Name       string
+	Age        int
+	Occupation string
+}
+
 func main() {
 	filePath := "example.txt"
 	totalSum := 0
@@ -40,6 +46,8 @@ func main() {
 	ReadRuny(filePath)
 
 	WriteFile("output.txt")
+
+	ReadFromFileInStruct("data.txt")
 }
 
 func ReadRuny(filePath string) {
@@ -139,4 +147,39 @@ func ReadTable(filepath string) {
 	for _, row := range data {
 		fmt.Println(row)
 	}
+}
+
+func ReadFromFileInStruct(filepath string) {
+	file, err := os.Open("data.txt")
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+	defer file.Close()
+
+	var people []Person
+
+	scanner := bufio.NewScanner(file)
+
+	scanner.Scan()
+
+	for scanner.Scan() {
+		parts := strings.Fields(scanner.Text())
+		age, _ := strconv.Atoi(parts[1])
+		people = append(people, Person{
+			Name:       parts[0],
+			Age:        age,
+			Occupation: parts[2],
+		})
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Println("Error:", err)
+	}
+
+	fmt.Println("Parsed People Data:")
+	for _, person := range people {
+		fmt.Printf("Name: %s, Age: %d, Occupation: %s\n", person.Name, person.Age, person.Occupation)
+	}
+
 }
