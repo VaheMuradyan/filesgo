@@ -50,6 +50,8 @@ func main() {
 	WriteFile("output.txt")
 
 	ReadFromFileInStruct("data.txt")
+
+	WriteCSV("csvout.csv")
 }
 
 func ReadRuny(filePath string) {
@@ -220,4 +222,64 @@ func ReadCSV(filepath string) {
 
 	// TODO: Print each name from the sorted 'names' slice
 	fmt.Println(names)
+}
+
+func WriteCSV(filepath string) {
+	data := []Person{
+		{Name: "John", Age: 28, Occupation: "Engineer"},
+		{Name: "Alice", Age: 34, Occupation: "Doctor"},
+		{Name: "Bob", Age: 23, Occupation: "Artist"},
+	}
+
+	csvFile, err := os.Create(filepath)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer csvFile.Close()
+
+	writer := csv.NewWriter(csvFile)
+
+	defer writer.Flush()
+
+	writer.Write([]string{"Name", "Age", "Occupation"})
+
+	for _, person := range data {
+		writer.Write([]string{person.Name, fmt.Sprint(person.Age), person.Occupation})
+	}
+
+	fmt.Println("Data successfully written to output.csv (comma-separated).")
+}
+
+func WriteFileTable(filepath string) {
+	data := []Person{
+		{Name: "John", Age: 28, Occupation: "Engineer"},
+		{Name: "Alice", Age: 34, Occupation: "Doctor"},
+		{Name: "Bob", Age: 23, Occupation: "Artist"},
+	}
+
+	txtLines := []string{"Name Age Occupation"} // Header with spaces
+	for _, person := range data {
+		// Add each person's data as a space-separated line
+		txtLines = append(txtLines, person.Name+" "+fmt.Sprint(person.Age)+" "+person.Occupation)
+	}
+
+	// Write the list of lines to the TXT file
+	err := os.WriteFile(filepath, []byte(strings.Join(txtLines, "\n")), 0644)
+	if err != nil {
+		fmt.Println("Error writing to file:", err)
+	} else {
+		fmt.Printf("Data successfully written to %s (space-separated).\n", filepath)
+	}
+
+	// Read and print the content of the file as a single string
+	fileContent, err := os.ReadFile(filepath)
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+	} else {
+		fmt.Println("File content:")
+		fmt.Println(string(fileContent))
+	}
+
 }
