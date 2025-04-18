@@ -37,6 +37,8 @@ func main() {
 	}
 
 	ReadRuny(filePath)
+
+	WriteFile("output.txt")
 }
 
 func ReadRuny(filePath string) {
@@ -83,4 +85,28 @@ func ReadLineAndRuny(filePath string) {
 	}
 
 	file.Seek(0, 0) // senc pointer@ hetem berum amenaskizb
+}
+
+func WriteFile(filePath string) {
+	//grumenq elaci vren jnjvuma hin@
+	err := os.WriteFile(filePath, []byte(fmt.Sprintf("%d", 22)), 0664)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//grumenq hin fili takic
+	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_WRONLY, 0664)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_, err = file.WriteString("Taki toxicenq avelacnum\n")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer file.Close()
+
+	fmt.Println("exav")
+
 }
