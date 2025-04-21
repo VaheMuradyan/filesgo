@@ -1,0 +1,7 @@
+{
+    "blackholes": [
+        {"name": "Cygnus X-1", "mass": 14.8, "distance": 6070},
+        {"name": "V404 Cygni", "mass": 9, "distance": 7923},
+        {"name": "Sagittarius A*", "mass": 4300000, "distance": 26000}
+    ]
+}

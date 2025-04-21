@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -18,40 +19,78 @@ type Person struct {
 }
 
 func main() {
-	filePath := "example.txt"
-	totalSum := 0
-	totalCount := 0
+	// filePath := "example.txt"
+	// totalSum := 0
+	// totalCount := 0
 
-	file, err := os.Open(filePath)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+	// file, err := os.Open(filePath)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// defer file.Close()
 
-	scanner := bufio.NewScanner(file)
+	// scanner := bufio.NewScanner(file)
 
-	for scanner.Scan() {
-		line := scanner.Text()
-		val, _ := strconv.Atoi(line)
-		totalCount++
-		totalSum += val
-	}
+	// for scanner.Scan() {
+	// 	line := scanner.Text()
+	// 	val, _ := strconv.Atoi(line)
+	// 	totalCount++
+	// 	totalSum += val
+	// }
 
-	if err := scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
+	// if err := scanner.Err(); err != nil {
+	// 	log.Fatal(err)
+	// }
 
-	if totalCount > 0 {
-		fmt.Println(totalSum / totalCount)
-	}
+	// if totalCount > 0 {
+	// 	fmt.Println(totalSum / totalCount)
+	// }
 
-	ReadRuny(filePath)
+	// ReadRuny(filePath)
 
-	WriteFile("output.txt")
+	// WriteFile("output.txt")
 
-	ReadFromFileInStruct("data.txt")
+	// ReadFromFileInStruct("data.txt")
 
-	WriteCSV("csvout.csv")
+	// WriteCSV("csvout.csv")
+
+	//          ReadJson("data.json")
+	ReadJson2("data2.json")
+
+	// r := gin.Default()
+
+	// r.GET("/process", func(c *gin.Context) {
+	// 	var data map[string]interface{}
+	// 	if err := c.BindJSON(&data); err != nil {
+	// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 		return
+	// 	}
+
+	// 	// Extract and print the school name
+	// 	schoolName := data["school"].(string)
+	// 	fmt.Println("School Name:", schoolName)
+
+	// 	// Extract and print the city
+	// 	location := data["location"].(map[string]interface{})
+	// 	city := location["city"].(string)
+	// 	fmt.Println("School's City:", city)
+
+	// 	// Extract and print the name of the second student
+	// 	students := data["students"].([]interface{})
+	// 	secondStudent := students[1].(map[string]interface{})
+	// 	secondStudentName := secondStudent["name"].(string)
+	// 	fmt.Println("Name of the Second Student:", secondStudentName)
+
+	// 	// Return response
+	// 	c.JSON(http.StatusOK, gin.H{
+	// 		"school":         schoolName,
+	// 		"city":           city,
+	// 		"second_student": secondStudentName,
+	// 	})
+	// })
+
+	// r.Run(":8080")
+
 }
 
 func ReadRuny(filePath string) {
@@ -282,4 +321,90 @@ func WriteFileTable(filepath string) {
 		fmt.Println(string(fileContent))
 	}
 
+}
+
+func ReadJson(filePath string) {
+	// Read the entire content of the JSON file into a byte slice
+	content, err := os.ReadFile(filePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Parse the JSON content into a map
+	var data map[string]interface{}
+	err = json.Unmarshal(content, &data)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// fmt.Println("Parsed JSON Data:")
+	// prettyJSON, err := json.MarshalIndent(data, "", " ")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// Extract and print the school name
+	schoolName := data["school"].(string)
+	fmt.Println("School Name:", schoolName)
+
+	// Extract and print the city
+	location := data["location"].(map[string]interface{})
+	city := location["city"].(string)
+	fmt.Println("School's City:", city)
+
+	// Extract and print the name of the second student
+	students := data["students"].([]interface{})
+	secondStudent := students[1].(map[string]interface{})
+	secondStudentName := secondStudent["name"].(string)
+	fmt.Println("Name of the Second Student:", secondStudentName)
+}
+
+func ReadJson2(filePath string) {
+	content, err := os.ReadFile(filePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var data map[string]interface{}
+	err = json.Unmarshal(content, &data)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// TODO: Retrieve the "departments" array from the JSON data and ensure it is cast to []interface{}
+	departments, ok := data["departments"].([]interface{})
+	if !ok {
+		fmt.Println("Error")
+	}
+
+	for _, department := range departments {
+		dept := department.(map[string]interface{})
+		employees, ok := dept["employees"].([]interface{})
+		if !ok {
+			fmt.Println("Error")
+		}
+		for _, employee := range employees {
+			emp := employee.(map[string]interface{})
+			fmt.Println(emp["name"])
+		}
+
+	}
+
+	// TODO: Check if the departments slice is not nil
+
+}
+
+func readJSON(path string) (map[string]interface{}, error) {
+	content, err := os.ReadFile(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var data map[string]interface{}
+	err = json.Unmarshal(content, &data)
+	if err != nil {
+		return nil, fmt.Errorf("error")
+	}
+
+	return data, nil
 }

@@ -1,0 +1,25 @@
+{
+    "company": "Tech Innovations Inc.",
+    "headquarters": {
+        "city": "San Francisco",
+        "state": "CA"
+    },
+    "departments": [
+        {
+            "name": "Research and Development",
+            "head": "Alice Johnson",
+            "employees": [
+                {"name": "John Doe", "position": "Engineer", "experience": 5},
+                {"name": "Jane Smith", "position": "Research Scientist", "experience": 7}
+            ]
+        },
+        {
+            "name": "Marketing",
+            "head": "Michael Brown",
+            "employees": [
+                {"name": "Chris Lee", "position": "Marketing Specialist", "experience": 3},
+                {"name": "Sara Connor", "position": "Brand Manager", "experience": 6}
+            ]
+        }
+    ]
+}

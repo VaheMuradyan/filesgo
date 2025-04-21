@@ -1,0 +1,7 @@
+{
+    "stars": [
+        {"name": "Sirius", "type": "Main Sequence", "distance": 8.6},
+        {"name": "Rigel", "type": "Supergiant", "distance": 860},
+        {"name": "Procyon", "type": "Main Sequence", "distance": 11.46}
+    ]
+}
